@@ -1,4 +1,4 @@
-from art import logo
+from art import saw, died, logo
 import random
 #Set the deck of cards, each card will have an equal chance of being pulled
 deck = {
@@ -140,9 +140,11 @@ def play_blackjack():
 #Main Game Loop
 wants_to_play = True
 while wants_to_play:
+    #print("\n" * 20)
+    print(saw)
     wants_to_play = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower() == 'y'
     if not wants_to_play:
-        print("Thank you for stopping by! Goodbye!")
+        print(died)
         break
     #Play the game
     print("\n" * 20)
