@@ -17,10 +17,9 @@ deck = {
     "K": 10
 }
 
-def deal_cards():
-    """Helper function to randomly choose two cards from the deck. Returns a list []"""
-    hand = [random.choice(list(deck.keys())), random.choice(list(deck.keys()))]
-    return hand
+def deal_card():
+    """Helper function to randomly draw a single card from the deck. Returns a string (Card key)"""
+    return random.choice(list(deck.keys()))
 
 def calculate_score(player_hand: list, dealer: bool):
     """Helper function to calculate the score of a players/dealers hand.
@@ -52,12 +51,15 @@ def calculate_score(player_hand: list, dealer: bool):
 def play_blackjack():
     """Main game function to handle logic for a game of Blackjack.
     Returns 'win', 'lose', and 'push' depending on outcome."""
-    #Deal Player starter hand
-    players_hand = deal_cards()
-    players_score = calculate_score(player_hand=players_hand, dealer=False)
+    #Deal Player and Dealer hands
+    players_hand = []
+    dealers_hand = []
+    for _ in range(2):
+        players_hand.append(deal_card())
+        dealers_hand.append(deal_card())
 
-    #Deal Computer starter hand
-    dealers_hand = deal_cards()
+    #Calculate initial scores
+    players_score = calculate_score(player_hand=players_hand, dealer=False)
     dealers_score = calculate_score(player_hand=dealers_hand, dealer=True)
 
     #Players Turn
@@ -75,7 +77,7 @@ def play_blackjack():
         print(f"    Computer's first card: {dealers_hand[0]}")
         get_card = input("Press 'y' to get another card or 'n' to pass: ").lower() == 'y'
         if get_card:
-            players_hand.append(random.choice(list(deck.keys()))) # Deal the player a new card
+            players_hand.append(deal_card()) # Deal the player a new card
             players_score = calculate_score(player_hand=players_hand, dealer=False)   # Calculate player new score
             if players_score < 21: #Check for win condition
                 continue
@@ -108,7 +110,7 @@ def play_blackjack():
 
         # Play Dealer turn
         elif dealers_score < 17: # Dealer takes a new card if current score < 17
-            dealers_hand.append(random.choice(list(deck.keys())))
+            dealers_hand.append(deal_card())
             dealers_score = calculate_score(player_hand=dealers_hand, dealer=True)
             #Check for dealer bust
             if dealers_score < 17:
